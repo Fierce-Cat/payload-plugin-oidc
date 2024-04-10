@@ -9,7 +9,6 @@ import { verify } from '../lib/oauth/verify';
 
 export const connectHandler =
   (opts: oidcPluginOptions, userCollectionSlug: string) => async (req: PayloadRequest, res: Response) => {
-    console.log(req.query);
     // If the query contain redirect_uri, save it to a temporary cookie
     if (req.query.redirect_uri) {
       res.cookie(opts.redirectUriCookieName || 'payload-connect-redirect-uri'
@@ -63,7 +62,6 @@ export const loginHandler =
       });
 
       const encodedURI = decodeURIComponent(redirectUri);
-      console.log(encodedURI);
 
       // Redirect to the original URL
       return res.redirect(encodedURI);

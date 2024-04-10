@@ -9,7 +9,6 @@ const payload_1 = __importDefault(require("payload"));
 const types_1 = require("payload/dist/fields/config/types");
 const getCookieExpiration_1 = __importDefault(require("payload/dist/utilities/getCookieExpiration"));
 const connectHandler = (opts, userCollectionSlug) => async (req, res) => {
-    console.log(req.query);
     // If the query contain redirect_uri, save it to a temporary cookie
     if (req.query.redirect_uri) {
         res.cookie(opts.redirectUriCookieName || 'payload-connect-redirect-uri', req.query.redirect_uri, {
@@ -53,7 +52,6 @@ const loginHandler = (opts, userCollectionSlug) => async (req, res) => {
             path: '/',
         });
         const encodedURI = decodeURIComponent(redirectUri);
-        console.log(encodedURI);
         // Redirect to the original URL
         return res.redirect(encodedURI);
     }
