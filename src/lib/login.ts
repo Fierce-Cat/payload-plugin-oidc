@@ -1,12 +1,30 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import payload from 'payload';
+import type { oidcPluginOptions } from '../types';
 import { Field, fieldAffectsData, fieldHasSubFields } from 'payload/dist/fields/config/types';
 import getCookieExpiration from 'payload/dist/utilities/getCookieExpiration';
 import { PayloadRequest, SanitizedCollectionConfig } from 'payload/types';
+import { verify } from '../lib/oauth/verify';
+
+export const connectHandler =
+  (opts: oidcPluginOptions, userCollectionSlug: string) => async (req: PayloadRequest, res: Response) => {
+    console.log(req.query);
+    // If the query contain redirect_uri, save it to a temporary cookie
+    if (req.query.redirect_uri) {
+      res.cookie(opts.redirectUriCookieName || 'payload-connect-redirect-uri'
+      , req.query.redirect_uri, {
+        path: '/',
+        sameSite: 'strict',
+      });
+    }
+
+    // Redirect to the OIDC provider
+    return res.redirect(opts.initPath);
+  };
 
 export const loginHandler =
-  (userCollectionSlug: string) => async (req: PayloadRequest, res: Response) => {
+  (opts: oidcPluginOptions, userCollectionSlug: string) => async (req: PayloadRequest, res: Response) => {
     // Get the Mongoose user
     const collectionConfig = payload.collections[userCollectionSlug].config;
 
@@ -32,8 +50,27 @@ export const loginHandler =
       domain: collectionConfig.auth.cookies.domain || undefined,
     });
 
+    // Read the redirect_uri from the temporary cookie in the headers
+    const headerCookie = req.headers.cookie;
+    const cookieName = opts.redirectUriCookieName || 'payload-connect-redirect-uri';
+    const redirectUri = headerCookie?.split(';').find((cookie) => cookie.includes('42kit-cms-redirect-uri'))?.split('=')[1];
+
+
+    if (redirectUri) {
+      // Clear the temporary cookie
+      res.clearCookie('42kit-cms-redirect-uri', {
+        path: '/',
+      });
+
+      const encodedURI = decodeURIComponent(redirectUri);
+      console.log(encodedURI);
+
+      // Redirect to the original URL
+      return res.redirect(encodedURI);
+    }
+
     // Redirect to admin dashboard
-    return res.redirect('https://42kit.citizenwiki.cn');
+    return res.redirect('/admin');
   };
 
 const getFieldsToSign = (collectionConfig: SanitizedCollectionConfig, user: any) => {

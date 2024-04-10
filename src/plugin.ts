@@ -4,7 +4,7 @@ import OAuth2Strategy from 'passport-oauth2';
 import payload from 'payload';
 import type { Config } from 'payload/config';
 import SignInButton from './components/SignInButton/SignInButton';
-import { loginHandler } from './lib/login';
+import { connectHandler,loginHandler } from './lib/login';
 import type { oidcPluginOptions } from './types';
 import { verify } from './lib/oauth/verify';
 import { extendWebpackConfig } from './lib/webpack';
@@ -47,6 +47,12 @@ export const oidcPlugin =
     config.endpoints = [
       ...(config.endpoints || []),
       {
+        path: opts.connectPath || '/oidc/connect',
+        method: 'get',
+        root: true,
+        handler: connectHandler(opts, userCollectionSlug),
+      },
+      {
         path: opts.initPath,
         method: 'get',
         root: true,
@@ -75,7 +81,7 @@ export const oidcPlugin =
         path: callbackPath,
         method: 'get',
         root: true,
-        handler: loginHandler(userCollectionSlug),
+        handler: loginHandler(opts, userCollectionSlug),
       },
     ];
 

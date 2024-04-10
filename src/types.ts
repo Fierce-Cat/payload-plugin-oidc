@@ -28,6 +28,12 @@ export interface oidcPluginOptions extends StrategyOptions {
   /** Which path to mount for the callback endpoint in express, defaults to the path in callbackURL */
   callbackPath?: string;
 
+  /** 42kit: OIDC Connect redirect url cookie name */
+  redirectUriCookieName?: string;
+
+  /** 42kit: Which path to mount for the OIDC Connect */
+  connectPath?: string;
+
   /** Override button component */
   components?: {
     Button?: ComponentType<any>;

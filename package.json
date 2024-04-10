@@ -1,24 +1,22 @@
 {
-  "name": "payload-plugin-oidc",
-  "version": "1.45.0",
+  "name": "@fiercecat/payload-plugin-oidc",
+  "version": "1.45.4",
   "description": "OIDC plugin for Payload 2.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "keywords": [
     "oidc",
     "openidconnect",
     "openid",
     "connect",
-    "payload",
     "cms",
     "plugin",
     "typescript",
-    "react",
-    "template"
+    "react"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --outDir dist",
     "postversion": "git push --follow-tags"
   },
   "peerDependencies": {
@@ -32,7 +30,8 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
     "memorystore": "^1.6.7",
-    "passport-oauth2": "^1.7.0"
+    "passport-oauth2": "^1.7.0",
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@payloadcms/eslint-config": "^0.0.1",
@@ -48,13 +47,13 @@
     "react": "^18.0.0",
     "typescript": "^4.8.4"
   },
-  "author": "Stratos Giouldasis <giouldasis.stratos@gmail.com>",
-  "homepage": "https://github.com/gousta/payload-plugin-oidc",
+  "author": "Yix Huang <hyx5020@gmail.com>",
+  "homepage": "https://github.com/Fierce-Cat/payload-plugin-oidc",
   "bugs": {
-    "url": "https://github.com/gousta/payload-plugin-oidc/issues"
+    "url": "https://github.com/Fierce-Cat/payload-plugin-oidc/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gousta/payload-plugin-oidc"
+    "url": "https://github.com/Fierce-Cat/payload-plugin-oidc"
   }
 }
