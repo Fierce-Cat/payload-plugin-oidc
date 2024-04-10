@@ -42,6 +42,8 @@ export default buildConfig({
       initPath: `/oidc/signin`,
       callbackPath: `/oidc/callback`,
       callbackURL: `${process.env.SELF_URL}/oidc/callback`,
+      redirectUriCookieName: `42kit_connect_redirect_url`,
+      connectPath: `/oidc/connect`,
       scope: 'openid offline_access profile email custom_data',
       mongoUrl: process.env.DATABASE_URI,
       components: {

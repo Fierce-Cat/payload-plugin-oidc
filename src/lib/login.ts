@@ -53,12 +53,12 @@ export const loginHandler =
     // Read the redirect_uri from the temporary cookie in the headers
     const headerCookie = req.headers.cookie;
     const cookieName = opts.redirectUriCookieName || 'payload-connect-redirect-uri';
-    const redirectUri = headerCookie?.split(';').find((cookie) => cookie.includes('42kit-cms-redirect-uri'))?.split('=')[1];
+    const redirectUri = headerCookie?.split(';').find((cookie) => cookie.includes(cookieName))?.split('=')[1];
 
 
     if (redirectUri) {
       // Clear the temporary cookie
-      res.clearCookie('42kit-cms-redirect-uri', {
+      res.clearCookie(cookieName, {
         path: '/',
       });
 
