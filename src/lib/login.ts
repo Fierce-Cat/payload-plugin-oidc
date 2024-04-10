@@ -33,7 +33,7 @@ export const loginHandler =
     });
 
     // Redirect to admin dashboard
-    return res.redirect('/admin');
+    return res.redirect('https://42kit.citizenwiki.cn');
   };
 
 const getFieldsToSign = (collectionConfig: SanitizedCollectionConfig, user: any) => {
